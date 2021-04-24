@@ -12,6 +12,7 @@ class Binary {
     }
   }
 
+  ///Returns integer value of a binary number
   static int toInt(Binary binary) {
     int result = 0;
     int step = 0;
@@ -30,6 +31,8 @@ class Binary {
     return Binary(result);
   }
 
+  ///Returns a list of Binary objects constructed from `charCodes` if `charCodes` is not null.
+  ///Otherwise, returns a Binary object constructed from an integer, `charCode`.
   static dynamic intToBinary({int charCode: 0, List<int>? charCodes}) {
     if (charCodes != null) {
       List<Binary> binaries = <Binary>[];
@@ -41,6 +44,7 @@ class Binary {
     return toBinary(charCode);
   }
 
+  ///Returns a Binary object constructed from an integer, `charCode`.
   static Binary toBinary(int charCode) {
     if (charCode == 0) return Binary();
 
@@ -78,7 +82,8 @@ class Binary {
     String bString = b.bits!;
     int aLength = aString.length;
     int bLength = bString.length;
-    //both binary values need to have equal digits for the logical AND to be performed
+
+    //both binary values need to have equal digits for the binary logical operations to be performed
 
     if (aLength > bLength) {
       bString = bString.padLeft(aLength, ZERO);
