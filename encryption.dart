@@ -4,20 +4,30 @@ import 'dart:convert' show utf8;
 import 'extensions.dart';
 
 class IgodoEncryption {
+  ///Encrypts `word` with `key` symmetrically.
   static String encryptSymmetric(String word, String key) {
     return _runSymmetricEncrption(word, key);
   }
 
+  ///Decrypts `word` with `key` symmetrically.
   static String decryptSymmetric(String word, String key) {
     return _runSymmetricEncrption(word, key, decrypt: true);
   }
 
+  ///Handler for symmetric encryption and decryption
   static String _runSymmetricEncrption(String word, String encryptionKey,
       {bool? decrypt = false}) {
+    //convert encryption key from String to binary
     List<Binary> key = encryptionKey.binary;
+
+    //decode word to be encrypted into utf-8 char codes
     List<int> encodedWord = utf8.encode(word);
+
+    //convert decoded word codes into binary equivalents
     List<Binary> wordInBits = Binary.intToBinary(charCodes: encodedWord);
 
+    //sum all the binary values in the encryption key in base 10
+    //convert result to binary and clamp it to 7 bits
     int keySum = 0;
     for (var i in key) {
       keySum += Binary.toInt(i);
@@ -26,7 +36,8 @@ class IgodoEncryption {
 
     if (keySumBinary.bits!.length > 7) {
       keySumBinary = Binary(keySumBinary.bits!.substring(0, 7));
-      //binary value cannot end with a '0'
+      //binary value cannot end with a '0' for an accurate decryption
+      //not sure why yet
       if (keySumBinary.bits!.endsWith('0')) {
         keySumBinary = Binary(keySumBinary.bits!.substring(0, 6) + '1');
       }
@@ -34,7 +45,9 @@ class IgodoEncryption {
 
     List<Binary> encryptedWordInBits = [];
 
-    //shift first bit of all binaries forward except for the first and last in the list
+    //shift first bit of all binaries forward and perform a logical XAND with the keySumBinary
+    //except for the first and last in the list on which no shift is done and
+    //logical XOR is performed with the keySumBinary
 
     for (int i = 0; i < wordInBits.length; i++) {
       if (i != 0 || i != wordInBits.length) {
@@ -47,6 +60,7 @@ class IgodoEncryption {
 
     List<int> encryptedCharCodes = [];
 
+    //convert encrypted binaries to utf-8 char codes
     for (var i in encryptedWordInBits) {
       encryptedCharCodes.add(Binary.toInt(i));
     }
@@ -54,6 +68,7 @@ class IgodoEncryption {
     return String.fromCharCodes(encryptedCharCodes);
   }
 
+  ///Swaps first bit with last bit
   static Binary shiftFirstBitForward(Binary binary) {
     List<String> bits = binary.bits!.split('');
 
@@ -64,6 +79,8 @@ class IgodoEncryption {
     return Binary(bits.join());
   }
 
+  ///Some vibes that I might wanna use sometime in the future.
+  ///Guess what it does if you will.
   static List<int> swapBits(List<int> encodedWord) {
     List<int> result = [...encodedWord];
     int max = 0;
@@ -99,6 +116,7 @@ class IgodoEncryption {
     return result;
   }
 
+  ///Swaps first bit with last bit, last bit with second bit and second bit with first bit
   static Binary shiftTwoBitsForward(Binary binary) {
     List<String> bits = binary.bits!.split('');
     String temp = bits[bits.length - 1];
@@ -109,6 +127,7 @@ class IgodoEncryption {
     return Binary(bits.join());
   }
 
+  ///Reverses [shiftTwoBitsForward]
   static Binary reverseShiftTwoBitsForward(Binary binary) {
     List<String> bits = binary.bits!.split('');
     String temp = bits[1];
