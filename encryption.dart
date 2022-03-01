@@ -4,6 +4,42 @@ import 'dart:convert' show utf8;
 import 'extensions.dart';
 
 class IgodoEncryption {
+  static String encryptTripleDES({
+    required String plaintext,
+    required String key1,
+    required String key2,
+    required String key3,
+  }) {
+    return _runSymmetricEncrption(
+      _runSymmetricEncrption(
+        _runSymmetricEncrption(plaintext, key1),
+        key2,
+        decrypt: true,
+      ),
+      key3,
+    );
+  }
+
+  static String decryptTripleDES({
+    required String plaintext,
+    required String key1,
+    required String key2,
+    required String key3,
+  }) {
+    return _runSymmetricEncrption(
+      _runSymmetricEncrption(
+        _runSymmetricEncrption(
+          plaintext,
+          key3,
+          decrypt: true,
+        ),
+        key2,
+      ),
+      key1,
+      decrypt: true,
+    );
+  }
+
   ///Encrypts `word` with `key` symmetrically.
   static String encryptSymmetric(String word, String key) {
     return _runSymmetricEncrption(word, key);
@@ -16,7 +52,7 @@ class IgodoEncryption {
 
   ///Handler for symmetric encryption and decryption
   static String _runSymmetricEncrption(String word, String encryptionKey,
-      {bool? decrypt = false}) {
+      {bool decrypt = false}) {
     //convert encryption key from String to binary
     List<Binary> key = encryptionKey.binary;
 
@@ -119,10 +155,11 @@ class IgodoEncryption {
   ///Swaps first bit with last bit, last bit with second bit and second bit with first bit
   static Binary shiftTwoBitsForward(Binary binary) {
     List<String> bits = binary.bits!.split('');
-    String temp = bits[bits.length - 1];
-    bits[bits.length - 1] = bits[1];
-    bits[1] = bits[0];
-    bits[0] = temp;
+
+    String tempSecond = bits[1];
+    bits[1] = bits[bits.length - 1];
+    bits[bits.length - 1] = bits[0];
+    bits[0] = tempSecond;
 
     return Binary(bits.join());
   }
@@ -130,10 +167,11 @@ class IgodoEncryption {
   ///Reverses [shiftTwoBitsForward]
   static Binary reverseShiftTwoBitsForward(Binary binary) {
     List<String> bits = binary.bits!.split('');
-    String temp = bits[1];
+
+    String tempSecond = bits[1];
     bits[1] = bits[bits.length - 1];
     bits[bits.length - 1] = bits[0];
-    bits[0] = temp;
+    bits[0] = tempSecond;
 
     return Binary(bits.join());
   }
