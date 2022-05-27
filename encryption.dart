@@ -4,42 +4,6 @@ import 'dart:convert' show utf8;
 import 'extensions.dart';
 
 class IgodoEncryption {
-  static String encryptTripleDES({
-    required String plaintext,
-    required String key1,
-    required String key2,
-    required String key3,
-  }) {
-    return _runSymmetricEncrption(
-      _runSymmetricEncrption(
-        _runSymmetricEncrption(plaintext, key1),
-        key2,
-        decrypt: true,
-      ),
-      key3,
-    );
-  }
-
-  static String decryptTripleDES({
-    required String plaintext,
-    required String key1,
-    required String key2,
-    required String key3,
-  }) {
-    return _runSymmetricEncrption(
-      _runSymmetricEncrption(
-        _runSymmetricEncrption(
-          plaintext,
-          key3,
-          decrypt: true,
-        ),
-        key2,
-      ),
-      key1,
-      decrypt: true,
-    );
-  }
-
   ///Encrypts `word` with `key` symmetrically.
   static String encryptSymmetric(String word, String key) {
     return _runSymmetricEncrption(word, key);
