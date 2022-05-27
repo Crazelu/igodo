@@ -1,16 +1,19 @@
-import '../../env.dart';
 import '../igodo.dart';
 
-//Provide your encryption key
+const ENCRYPTION_KEY = "20120isvba;9310291299390pvm'v";
 void main() {
-  String password = 'aurora';
-  print('Password: ' '$password');
+  String word = 'aurora';
+  print('Word: ' '$word');
 
-  String encryptedPassword =
-      IgodoEncryption.encryptSymmetric(password, MASTERKEY);
-  print('Encrypted password: ' '$encryptedPassword');
+  String encryptedWord = IgodoEncryption.encryptSymmetric(
+    word,
+    ENCRYPTION_KEY,
+  );
+  print('Encrypted word: ' '$encryptedWord');
 
-  String decryptedPassword =
-      IgodoEncryption.decryptSymmetric(encryptedPassword, MASTERKEY);
-  print('Decrypted password: ' '$decryptedPassword');
+  String decryptedWord = IgodoEncryption.decryptSymmetric(
+    encryptedWord,
+    ENCRYPTION_KEY,
+  );
+  print('Decrypted sword: ' '$decryptedWord');
 }
