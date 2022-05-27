@@ -1,5 +1,6 @@
-import 'binary.dart';
 import 'dart:convert' show utf8;
+
+import 'binary.dart';
 
 extension BinaryListExtension on List<Binary> {
   Binary get and => Binary.and(this[0], this[1]);
