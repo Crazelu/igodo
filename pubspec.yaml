@@ -1,5 +1,5 @@
-name: Igodo
-description: An encryption engine written in Dart.
+name: igodo
+description: An powerful encryption engine written in Dart.
 
 publish_to: 'none'
 
