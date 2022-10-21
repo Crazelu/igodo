@@ -1,5 +1,5 @@
 # Igodo 🔒
-A novel symmetric encryption algorithm written in Dart.
+A novel symmetric encryption algorithm implemented in Dart.
 Igodo means "lock" or "key" in Igbo.
 
 Igodo works by swapping and mangling bit representation of Strings with an encryption key in a way that is sturdy and secure.
