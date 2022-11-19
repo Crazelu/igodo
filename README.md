@@ -10,10 +10,8 @@ You can take a look at its use in steganography application [here](https://githu
 In the `pubspec.yaml` of your Flutter/Dart project, add the following dependency:
 
 ```yaml
-igodo:
-    git:
-      url: git@github.com:Crazelu/igodo.git
-      ref: main
+dependencies:
+  igodo: ^1.0.0
 ```
 
 ## Import the package in your project 📥
@@ -27,7 +25,7 @@ import 'package:igodo/igodo.dart';
 Encrypt messages with an encryption key.
 
 ```dart
- String encryptedMessage = IgodoEncryption.encryptSymmetric(
+ String encryptedMessage = Igodo.encrypt(
     "Hey there, human!",
     ENCRYPTION_KEY,
   );
@@ -38,7 +36,7 @@ Encrypt messages with an encryption key.
 Decrypt messages with an encryption key.
 
 ```dart
-  String decryptedMessage = IgodoEncryption.decryptSymmetric(
+  String decryptedMessage = Igodo.decrypt(
     encryptedMessage,
     ENCRYPTION_KEY,
   );

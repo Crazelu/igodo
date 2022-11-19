@@ -1,9 +1,8 @@
 name: igodo
-description: An powerful encryption engine written in Dart.
+description: A novel symmetric encryption algorithm implemented in Dart.
+homepage: https://github.com/Crazelu/igodo
 
-publish_to: 'none'
-
-version: 0.0.1
+version: 1.0.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

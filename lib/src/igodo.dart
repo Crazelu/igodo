@@ -3,14 +3,14 @@ import 'binary.dart';
 import 'dart:convert' show utf8;
 import 'extensions.dart';
 
-class IgodoEncryption {
+class Igodo {
   ///Encrypts `word` with `key` symmetrically.
-  static String encryptSymmetric(String word, String key) {
+  static String encrypt(String word, String key) {
     return _runSymmetricEncrption(word, key);
   }
 
   ///Decrypts `word` with `key` symmetrically.
-  static String decryptSymmetric(String word, String key) {
+  static String decrypt(String word, String key) {
     return _runSymmetricEncrption(word, key, decrypt: true);
   }
 
@@ -34,12 +34,12 @@ class IgodoEncryption {
     }
     Binary keySumBinary = Binary.toBinary(keySum);
 
-    if (keySumBinary.bits!.length > 7) {
-      keySumBinary = Binary(keySumBinary.bits!.substring(0, 7));
+    if (keySumBinary.bits.length > 7) {
+      keySumBinary = Binary(keySumBinary.bits.substring(0, 7));
       //binary value cannot end with a '0' for an accurate decryption
       //not sure why yet
-      if (keySumBinary.bits!.endsWith('0')) {
-        keySumBinary = Binary(keySumBinary.bits!.substring(0, 6) + '1');
+      if (keySumBinary.bits.endsWith('0')) {
+        keySumBinary = Binary(keySumBinary.bits.substring(0, 6) + '1');
       }
     }
 
@@ -70,7 +70,7 @@ class IgodoEncryption {
 
   ///Swaps first bit with last bit
   static Binary shiftFirstBitForward(Binary binary) {
-    List<String> bits = binary.bits!.split('');
+    List<String> bits = binary.bits.split('');
 
     String temp = bits[bits.length - 1];
     bits[bits.length - 1] = bits[0];
@@ -79,7 +79,7 @@ class IgodoEncryption {
     return Binary(bits.join());
   }
 
-  ///Some vibes that I might wanna use sometime in the future.
+  ///Some function that I might wanna use sometime in the future.
   ///Guess what it does if you will.
   static List<int> swapBits(List<int> encodedWord) {
     List<int> result = [...encodedWord];
@@ -118,7 +118,7 @@ class IgodoEncryption {
 
   ///Swaps first bit with last bit, last bit with second bit and second bit with first bit
   static Binary shiftTwoBitsForward(Binary binary) {
-    List<String> bits = binary.bits!.split('');
+    List<String> bits = binary.bits.split('');
 
     String tempSecond = bits[1];
     bits[1] = bits[bits.length - 1];
@@ -130,7 +130,7 @@ class IgodoEncryption {
 
   ///Reverses [shiftTwoBitsForward]
   static Binary reverseShiftTwoBitsForward(Binary binary) {
-    List<String> bits = binary.bits!.split('');
+    List<String> bits = binary.bits.split('');
 
     String tempSecond = bits[1];
     bits[1] = bits[bits.length - 1];

@@ -1,22 +1,19 @@
-import 'constants.dart';
 import 'dart:math' as math;
 
-class Binary {
-  String? bits = ZERO;
+const ZERO = '0';
+const ONE = '1';
 
-  Binary([String? binary]) {
-    if (binary == null || binary.isEmpty) {
-      this.bits = ZERO;
-    } else {
-      this.bits = binary;
-    }
-  }
+class Binary {
+  String _bits = ZERO;
+  String get bits => _bits;
+
+  Binary([String bits = ZERO]) : _bits = bits;
 
   ///Returns integer value of a binary number
   static int toInt(Binary binary) {
     int result = 0;
     int step = 0;
-    String bits = binary.bits!;
+    String bits = binary.bits;
     for (int i = bits.length - 1; i >= 0; i--) {
       result += int.parse(bits[i]) * math.pow(2, step).toInt();
       step += 1;
@@ -66,11 +63,11 @@ class Binary {
     int max = 0;
 
     for (var binary in binaries) {
-      if (binary.bits!.length > max) max = binary.bits!.length;
+      if (binary.bits.length > max) max = binary.bits.length;
     }
 
     for (var binary in binaries) {
-      result.add(Binary(binary.bits!.padLeft(max, '0')));
+      result.add(Binary(binary.bits.padLeft(max, '0')));
     }
 
     return result;
@@ -78,8 +75,8 @@ class Binary {
 
   ///Normalizes the word length of both bits
   static List<String> _normalizeLength(Binary a, Binary b) {
-    String aString = a.bits!;
-    String bString = b.bits!;
+    String aString = a.bits;
+    String bString = b.bits;
     int aLength = aString.length;
     int bLength = bString.length;
 
@@ -133,7 +130,7 @@ class Binary {
   ///Returns result of logical NOT on a bit
   static Binary not(Binary binary) {
     String result = '';
-    String binaryString = binary.bits!;
+    String binaryString = binary.bits;
 
     for (int i = 0; i < binaryString.length; i++) {
       if (binaryString[i] == ZERO) {
@@ -197,6 +194,6 @@ class Binary {
 
   @override
   String toString() {
-    return bits!;
+    return bits;
   }
 }
